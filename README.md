@@ -28,6 +28,8 @@ app.use(expressRequestLogger);
 
 ## Log example
 
+Human Readable:
+
 ```
 Level: INFO
 Message: REQ
@@ -42,6 +44,27 @@ Message: REQ
   pid: 2058,
   ppid: 2057,
   nodeVersion: 'v16.13.0'
+}
+```
+
+JSON:
+
+```json
+{
+  "level":30,
+  "message":"REQ",
+  "data":{
+    "method":"GET",
+    "url":"/",
+    "status":200,
+    "durationMs":0.02625
+  },
+  "context":{
+    "date":"2021-12-20T04:52:03.622Z",
+    "pid":10728,
+    "ppid":10725,
+    "nodeVersion":"v16.13.0"
+  }
 }
 ```
 
