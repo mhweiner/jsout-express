@@ -40,6 +40,6 @@
     "typescript": "^4.5.4"
   },
   "peerDependencies": {
-    "jsout": "^1.0.0"
+    "jsout": "^1.0.1"
   }
 }
