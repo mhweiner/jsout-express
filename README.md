@@ -17,12 +17,12 @@ npm i jsout jsout-express -D
 
 ```typescript
 import {logger} from 'jsout';
-import {expressRequestLogger} from 'jsout-express';
+import {logRequest} from 'jsout-express';
 import {express} from 'express';
 
 const app = express();
 
-app.use(expressRequestLogger);
+app.use(logRequest);
 
 ```
 

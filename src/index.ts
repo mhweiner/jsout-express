@@ -11,7 +11,7 @@ function getActualRequestDurationInMilliseconds(start: [number, number]) {
 
 }
 
-export function loggerMiddleware(req: Request, res: Response, next: NextFunction) {
+export function logRequest(req: Request, res: Response, next: NextFunction) {
 
     const method = req.method;
     const url = req.url;
