@@ -1,6 +1,5 @@
 import {NextFunction, Request, Response} from 'express';
 import {logger} from 'jsout';
-import {randomUUID} from 'crypto';
 
 function getActualRequestDurationInMilliseconds(start: [number, number]) {
 
@@ -19,17 +18,12 @@ export function logRequest(req: Request, res: Response, next: NextFunction) {
     const status = res.statusCode;
     const start = process.hrtime();
     const durationMs = getActualRequestDurationInMilliseconds(start);
-    const uuid = randomUUID();
-
-    // @ts-ignore
-    req.uuid = uuid;
 
     logger.info('REQ', {
         method,
         url,
         status,
         durationMs,
-        uuid,
     });
     next();
 
