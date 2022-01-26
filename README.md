@@ -13,7 +13,9 @@ Simple express request logger middleware for [jsout](https://github.com/mhweiner
 npm i jsout jsout-express -D
 ```
  
-## Example Usage
+## Usage
+
+Include it like you would any other middleware, but it must be last, after your error handler. If you don't do it last, then requests that fail (4xx, 5xx, etc.) won't get logged, and the duration would not be accurate.
 
 ```typescript
 import {logger} from 'jsout';
@@ -22,7 +24,12 @@ import {express} from 'express';
 
 const app = express();
 
+// middleware, routers, etc
+
+// must be last
 app.use(logRequest);
+
+// app.listen
 
 ```
 
