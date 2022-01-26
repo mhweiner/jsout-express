@@ -97,7 +97,6 @@ const parserOpts = {
     breakingHeaderPattern: /^(\w*)(?:\((.*)\))?!: (.*)$/,
 };
 
-
 module.exports = {
     plugins: [
         ['@semantic-release/commit-analyzer', {
