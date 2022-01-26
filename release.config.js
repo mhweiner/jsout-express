@@ -1,14 +1,3 @@
-/*
- * We're using the default semantic-release configurations (including angular preset) with the
- * following minor changes:
- *  - commit type 'docs' should trigger a patch release, so that the README is updated in npmjs.com
- *  - all other commit types also trigger at least a patch release, so that these changes are
- *    reflected on npmjs.com and we get credit for these maintenance activities
- *  - of course, all commits should show up in the release notes
- * Unfortunately, these very simple changes require quite a bit of work and seems quite brittle.
- * Someday, I may want to write my own very simple version of semantic-release, or a custom plugin.
- */
-
 const typeTransforms = [
     ['feat', 'Features'],
     ['fix', 'Bug Fixes'],
@@ -101,10 +90,16 @@ function transform(commit, context) {
 
 }
 
+const parserOpts = {
+    noteKeywords: ['BREAKING-CHANGE', 'BREAKING CHANGE', 'BREAKING CHANGES'],
+    headerPattern: /^(\w*)(?:\(([\w\$\.\-\* ]*)\))?!?: (.*)$/,
+    breakingHeaderPattern: /^(\w*)(?:\((.*)\))?!: (.*)$/,
+};
+
+
 module.exports = {
     plugins: [
         ['@semantic-release/commit-analyzer', {
-            preset: 'angular',
             releaseRules: [
                 {type: 'docs', release: 'patch'},
                 {type: 'feat', release: 'minor'},
@@ -118,9 +113,11 @@ module.exports = {
                 {type: 'fix', release: 'patch'},
                 {type: 'revert', release: 'patch'},
             ],
+            parserOpts,
         }],
         ['@semantic-release/release-notes-generator', {
             writerOpts: {transform},
+            parserOpts,
         }],
         '@semantic-release/npm',
         '@semantic-release/github',
