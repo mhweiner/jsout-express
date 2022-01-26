@@ -92,6 +92,7 @@ function transform(commit, context) {
 
 const parserOpts = {
     noteKeywords: ['BREAKING-CHANGE', 'BREAKING CHANGE', 'BREAKING CHANGES'],
+    // eslint-disable-next-line no-useless-escape
     headerPattern: /^(\w*)(?:\(([\w\$\.\-\* ]*)\))?!?: (.*)$/,
     breakingHeaderPattern: /^(\w*)(?:\((.*)\))?!: (.*)$/,
 };
