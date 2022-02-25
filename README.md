@@ -10,7 +10,7 @@ Simple express request logger middleware for [jsout](https://github.com/mhweiner
 ## Installation
 
 ```bash
-npm i jsout jsout-express -D
+npm i jsout jsout-express
 ```
  
 ## Usage
