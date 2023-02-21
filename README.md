@@ -7,6 +7,30 @@
 
 Simple express request logger middleware for [jsout](https://github.com/mhweiner/jsout).
 
+## Log example
+
+```json
+{
+  "level": 30,
+  "message": "req",
+  "data": {
+    "method": "GET",
+    "url": "/",
+    "hostname": "localhost",
+    "ip": "::ffff:127.0.0.1",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "durationMs": 3.2342
+  },
+  "context": {
+    "date": "2022-12-20T04:52:03.622Z",
+    "pid": 10728,
+    "ppid": 10725,
+    "nodeVersion": "v16.13.0"
+  }
+}
+```
+
 ## Installation
 
 ```bash
@@ -15,64 +39,22 @@ npm i jsout jsout-express
  
 ## Usage
 
-Include it like you would any other middleware, but it must be last, after your error handler. If you don't do it last, then requests that fail (4xx, 5xx, etc.) won't get logged, and the duration would not be accurate.
+Include it like you would any other middleware, but it should be first (or towards the top to be accurate). At the very least, it must be before any other handler that might send a response.
 
 ```typescript
+import {express} from 'express';
 import {logger} from 'jsout';
 import {logRequest} from 'jsout-express';
-import {express} from 'express';
 
 const app = express();
 
-// middleware, routers, etc
-
-// must be last
+// should be first, before other middlewares
 app.use(logRequest);
 
-// app.listen
+// ... other things ...
 
-```
+app.listen();
 
-## Log example
-
-Human Readable:
-
-```
-Level: INFO
-Message: REQ
-{ 
-    method: 'GET', 
-    url: '/', 
-    status: 200, 
-    durationMs: 0.040166 
-}
-{
-  date: '2021-12-20T02:19:52.063Z',
-  pid: 2058,
-  ppid: 2057,
-  nodeVersion: 'v16.13.0'
-}
-```
-
-JSON:
-
-```json
-{
-  "level":30,
-  "message":"REQ",
-  "data":{
-    "method":"GET",
-    "url":"/",
-    "status":200,
-    "durationMs":0.02625
-  },
-  "context":{
-    "date":"2021-12-20T04:52:03.622Z",
-    "pid":10728,
-    "ppid":10725,
-    "nodeVersion":"v16.13.0"
-  }
-}
 ```
 
 ## Contribution

@@ -1,0 +1,103 @@
+import {test} from 'hoare';
+import {mock} from 'cjs-mock';
+import * as M from './index';
+import express from 'express';
+import axios from 'axios';
+import {stub} from 'sinon';
+import {Server} from 'http';
+
+const TEST_PORT = 9999; // must be available on system
+const app = express();
+let server: Server;
+let sleeptimeMs = 0;
+
+function sleep(ms: number): Promise<void> {
+
+    return new Promise((res) => {
+
+        setTimeout(res, ms);
+
+    });
+
+}
+
+async function setupServer(sut: typeof M): Promise<void> {
+
+    app.use(sut.logRequest);
+    app.get('/', (req, res) => {
+
+        sleep(sleeptimeMs)
+            .then(() => res.status(200).send('OK'))
+            .catch(console.log.bind(console));
+
+    });
+
+    return new Promise((resolve) => {
+
+        server = app.listen(TEST_PORT, () => resolve());
+
+    });
+
+}
+
+function teardownServer() {
+
+    server.close();
+
+}
+
+async function makeRequestWithDelay(delayMs: number): Promise<void> {
+
+    sleeptimeMs = delayMs;
+    await axios.get(`http://localhost:${TEST_PORT}`);
+    sleeptimeMs = 0;
+
+}
+
+// eslint-disable-next-line max-lines-per-function
+test('test', async (assert) => {
+
+    // setup
+    const loggerStub = stub();
+    const sut: typeof M = mock('./index', {
+        jsout: {logger: {info: loggerStub}},
+    });
+    const expectedLogData = {
+        method: 'GET',
+        url: '/',
+        hostname: 'localhost',
+        ip: '::ffff:127.0.0.1',
+        statusCode: 200,
+        statusMessage: 'OK',
+    };
+
+    await setupServer(sut);
+
+    // run
+    await makeRequestWithDelay(0);
+    await makeRequestWithDelay(1000);
+    await makeRequestWithDelay(2000);
+
+    // get log durations and remove from log so we can more easily assert
+    const args = loggerStub.args;
+    const logDurations = args.map((log) => log[1].durationMs);
+    const logsWithDurationsRemoved = args.map((log: any) => {
+
+        const {durationMs, ...rest} = log[1];
+
+        return [log[0], rest];
+
+    });
+
+    // assertions
+    assert.equal(logsWithDurationsRemoved[0], ['req', expectedLogData]);
+    assert.equal(logsWithDurationsRemoved[1], ['req', expectedLogData]);
+    assert.equal(logsWithDurationsRemoved[2], ['req', expectedLogData]);
+    assert.equal(logDurations[0] > 0 && logDurations[0] < 15, true);
+    assert.equal(logDurations[1] > 1000 && logDurations[0] < 1015, true);
+    assert.equal(logDurations[2] > 2000 && logDurations[0] < 2015, true);
+
+    // teardown so process can exit
+    teardownServer();
+
+});

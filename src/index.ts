@@ -8,12 +8,13 @@ export function logRequest(req: Request, res: Response, next: NextFunction) {
 
     res.on('finish', () => {
 
-        const {method, url, hostname, ip, statusCode, statusMessage} = req;
+        const {method, url, hostname, ip} = req;
+        const {statusCode, statusMessage} = res;
         const diff = process.hrtime(start);
-        const ms = ((diff[0] * 1e9) + diff[1]) / 1e6;
+        const durationMs = ((diff[0] * 1e9) + diff[1]) / 1e6;
 
         logger.info('req', {
-            method, url, hostname, ip, statusCode, statusMessage, ms,
+            method, url, hostname, ip, statusCode, statusMessage, durationMs,
         });
 
     });
