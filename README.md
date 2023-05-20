@@ -39,7 +39,7 @@ npm i jsout jsout-express
  
 ## Usage
 
-Include it like you would any other middleware, but it should be first (or towards the top to be accurate). At the very least, it must be before any other handler that might send a response.
+Include it like you would any other middleware, but it should be first (or towards the top) to be accurate. At the very least, it must be before any other handler that might send a response.
 
 ```typescript
 import {express} from 'express';
