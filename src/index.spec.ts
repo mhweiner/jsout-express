@@ -5,7 +5,6 @@ import express from 'express';
 import axios from 'axios';
 import {stub} from 'sinon';
 import {Server} from 'http';
-import {log} from 'console';
 
 const TEST_PORT = 9999; // must be available on system
 const app = express();
