@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from 'express';
 import {logger} from 'jsout';
-import * as process from 'process';
+import * as process from 'node:process';
 
 export function logRequest(req: Request, res: Response, next: NextFunction) {
 

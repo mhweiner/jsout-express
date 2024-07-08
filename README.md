@@ -1,9 +1,8 @@
 # jsout-express
 
-[![build status](https://github.com/mhweiner/jsout-express/actions/workflows/workflow.yml/badge.svg)](https://github.com/mhweiner/jsout-express/actions)
-[![semantic-release](https://img.shields.io/badge/semantic--release-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![build status](https://github.com/mhweiner/jsout-express/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/jsout-express/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 Simple express request logger middleware for [jsout](https://github.com/mhweiner/jsout).
 
@@ -11,7 +10,7 @@ Simple express request logger middleware for [jsout](https://github.com/mhweiner
 
 ```json
 {
-  "level": 30,
+  "level": 6,
   "message": "req",
   "data": {
     "method": "GET",
@@ -21,12 +20,6 @@ Simple express request logger middleware for [jsout](https://github.com/mhweiner
     "statusCode": 200,
     "statusMessage": "OK",
     "durationMs": 3.2342
-  },
-  "context": {
-    "date": "2022-12-20T04:52:03.622Z",
-    "pid": 10728,
-    "ppid": 10725,
-    "nodeVersion": "v16.13.0"
   }
 }
 ```
@@ -57,21 +50,21 @@ app.listen();
 
 ```
 
-## Contribution
+# Support, Feedback, and Contributions
 
-Please contribute to this project! Issue a PR against `master` and request review. 
+- Star this repo if you like it!
+- Submit an [issue](https://github.com/mhweiner/jsout-express/issues) with your problem, feature request or bug report
+- Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
+- Write about `jsout` and `jsout-express` in your blog, tweet about it, or share it with your friends!
 
-- Please test your work thoroughly.
-- Make sure all tests pass with appropriate coverage.
+Together we can make software more reliable and easier to maintain!
 
-### How to build locally
+# Sponsors
 
-```bash
-npm i
-```
+<picture>
+    <source srcset="docs/aeroview-logo-lockup.svg" media="(prefers-color-scheme: dark)">
+    <source srcset="docs/aeroview-logo-lockup-dark.svg" media="(prefers-color-scheme: light)">
+    <img src="docs/aeroview-logo-lockup-dark.svg" alt="Logo" style="max-width: 150px;margin: 0 0 10px">
+</picture>
 
-### Running tests
-
-```shell script
-npm test
-```
+Aeroview is a developer-friendly, AI-powered observability platform that helps you monitor, troubleshoot, and optimize your applications. Get started for free at [https://aeroview.io](https://aeroview.io).

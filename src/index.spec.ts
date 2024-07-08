@@ -1,10 +1,11 @@
 import {test} from 'hoare';
 import {mock} from 'cjs-mock';
-import * as M from './index';
+import * as mod from '.';
 import express from 'express';
 import axios from 'axios';
 import {stub} from 'sinon';
 import {Server} from 'http';
+import {log} from 'console';
 
 const TEST_PORT = 9999; // must be available on system
 const app = express();
@@ -21,7 +22,7 @@ function sleep(ms: number): Promise<void> {
 
 }
 
-async function setupServer(sut: typeof M): Promise<void> {
+async function setupServer(sut: typeof mod): Promise<void> {
 
     app.use(sut.logRequest);
     app.get('/', (req, res) => {
@@ -59,14 +60,13 @@ test('test', async (assert) => {
 
     // setup
     const loggerStub = stub();
-    const sut: typeof M = mock('./index', {
+    const sut: typeof mod = mock('./index', {
         jsout: {logger: {info: loggerStub}},
     });
     const expectedLogData = {
         method: 'GET',
         url: '/',
         hostname: 'localhost',
-        ip: '::ffff:127.0.0.1',
         statusCode: 200,
         statusMessage: 'OK',
     };
@@ -88,6 +88,11 @@ test('test', async (assert) => {
         return [log[0], rest];
 
     });
+
+    // delete 'ip' from log as it is not deterministic
+    delete logsWithDurationsRemoved[0][1].ip;
+    delete logsWithDurationsRemoved[1][1].ip;
+    delete logsWithDurationsRemoved[2][1].ip;
 
     // assertions
     assert.equal(logsWithDurationsRemoved[0], ['req', expectedLogData]);
